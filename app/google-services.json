@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "19737762551",
+    "project_id": "suncity-estate-phase-4",
+    "storage_bucket": "suncity-estate-phase-4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:19737762551:android:ca1d2556135e050c3a11f2",
+        "android_client_info": {
+          "package_name": "com.doxpass.suncity"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9NHkVIcC93nugK1PjLwkDjxOXOENEHGg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

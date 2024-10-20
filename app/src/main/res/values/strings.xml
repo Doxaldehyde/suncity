@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">SunCity</string>
+    <string name="E.g_Jovi_Tega">E.g Midas Emmanuel</string>
+    <string name="E.g_08152323909">08152323909</string>
+    <string name="Vehicle_Type">Vehicle Type</string>
+    <string name="Plate_Number">Plate Number</string>
+    <string name="time_entry">Type of car</string>
+    <string name="time_due">LND-341-XY</string>
+    <string name="Comment">Comment</string>
+    <string name="First_Name">First Name</string>
+    <string name="Last_Name">Last Name</string>
+    <string name="Relationship">Type of relationship</string>
+    <string name="Password">Enter password</string>
+    <string name="Confirm_password">Confirmed password</string>
+    <string name="Email_address">Enter email address</string>
+    <string name="Estate_address">Estate address</string>
+    <string name="Flat_address">Enter flat address</string>
+    <string name="Home_address">Enter home address</string>
+    <string name="Marital_status">Enter marital status</string>
+    <string name="Occupancy_type">Enter occupancy type</string>
+    <string name="Gender">Gender</string>
+    <string name="Estate_name">Suncity Garden Estate</string>
+</resources>

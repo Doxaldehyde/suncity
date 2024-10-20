@@ -1,0 +1,235 @@
+import androidx.compose.material.Button
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+
+data class PreRegisteredEmail(
+    val email: String = "",
+)
+
+@Composable
+fun EmailAddress(navController: NavController){
+    val emailList = listOf(
+        "john.doea@example.com",
+        "jane.smitha@example.com",
+        "michael.jacksona@example.com",
+        "sarah.connora@example.com",
+        "james.bonda@example.com",
+        "emma.watsona@example.com",
+        "john.doe1a@example.com",
+        "jane.smith1a@example.com",
+        "michael.jackson1a@example.com",
+        "sarah.connor1a@example.com",
+        "james.bond1a@example.com",
+        "emma.watson1a@example.com",
+        "john.doe2a@example.com",
+        "jane.smith3a@example.com",
+        "michael.jackson4a@example.com",
+        "sarah.connor5a@example.com",
+        "james.bond5a@example.com",
+        "emma.watson5a@example.com",
+        "john.doe6a@example.com",
+        "jane.smith6a@example.com",
+        "michael.jackson6a@example.com",
+        "sarah.connor6a@example.com",
+        "james.bond6a@example.com",
+        "emma.watson6a@example.com",
+        "john.doe7a@example.com",
+        "jane.smith7a@example.com",
+        "michael.jackson7a@example.com",
+        "sarah.connor7a@example.com",
+        "james.bond7a@example.com",
+        "emma.watson7a@example.com",
+        "john.doe8a@example.com",
+        "jane.smith8a@example.com",
+        "michael.jackson8a@example.com",
+        "sarah.connor8a@example.com",
+        "james.bond8a@example.com",
+        "emma.watson8a@example.com",
+        "john.doe9a@example.com",
+        "jane.smith9a@example.com",
+        "michael.jackson9a@example.com",
+        "sarah.connor9a@example.com",
+        "james.bond9a@example.com",
+        "emma.watson9a@example.com",
+        "michael.jacksona@example.com",
+        "emily.jonesa@example.com",
+        "david.wilsona@example.com",
+        "lisa.andersona@example.com",
+        "kevin.whitea@example.com",
+        "jennifer.browna@example.com",
+        "alex.millera@example.com",
+        "samantha.greena@example.com",
+        "michael.jacksonea@example.com",
+        "emily.jonesea@example.com",
+        "david.wilsonea@example.com",
+        "lisa.andersonea@example.com",
+        "kevin.whiteea@example.com",
+        "jennifer.brownea@example.com",
+        "alex.millerea@example.com",
+        "samantha.greenea@example.com",
+        "michael.jackson3a@example.com",
+        "emily.jones3a@example.com",
+        "david.wilson3a@example.com",
+        "lisa.anderson3a@example.com",
+        "kevin.white3a@example.com",
+        "jennifer.brown3a@example.com",
+        "alex.miller3a@example.com",
+        "samantha.green3a@example.com",
+        "michael.jacksone3a@example.com",
+        "emily.jonese3a@example.com",
+        "david.wilsone3a@example.com",
+        "lisa.andersone3a@example.com",
+        "kevin.whitee3a@example.com",
+        "jennifer.browne3a@example.com",
+        "alex.millere3a@example.com",
+        "samantha.greene3a@example.com",
+        "michael.jackson34a@example.com",
+        "emily.jones34a@example.com",
+        "david.wilson34a@example.com",
+        "lisa.anderson34a@example.com",
+        "kevin.white34a@example.com",
+        "jennifer.brown34a@example.com",
+        "alex.miller34a@example.com",
+        "samantha.green34a@example.com",
+        "michael.jacksone34a@example.com",
+        "emily.jonese34a@example.com",
+        "david.wilsone34a@example.com",
+        "lisa.andersone34a@example.com",
+        "kevin.whitee34a@example.com",
+        "jennifer.browne34a@example.com",
+        "alex.millere34a@example.com",
+        "samantha.greene34a@example.com",
+        "michael.jackson35a@example.com",
+        "emily.jones35a@example.com",
+        "david.wilson35a@example.com",
+        "lisa.anderson35a@example.com",
+        "kevin.white35a@example.com",
+        "jennifer.brown35a@example.com",
+        "alex.miller35a@example.com",
+        "samantha.green35a@example.com",
+        "michael.jacksone35a@example.com",
+        "emily.jonese35a@example.com",
+        "david.wilsone35a@example.com",
+        "lisa.andersone35a@example.com",
+        "kevin.whitee35a@example.com",
+        "jennifer.browne35a@example.com",
+        "alex.millere35a@example.com",
+        "samantha.greene35a@example.com",
+        "michael.jackson36a@example.com",
+        "emily.jones36@example.com",
+        "david.wilson36a@example.com",
+        "lisa.anderson36a@example.com",
+        "kevin.white36a@example.com",
+        "jennifer.brown36a@example.com",
+        "alex.miller36a@example.com",
+        "samantha.green36a@example.com",
+        "michael.jacksone3a@example.com",
+        "emily.jonese36a@example.com",
+        "david.wilsone36a@example.com",
+        "lisa.andersone36a@example.com",
+        "kevin.whitee36a@example.com",
+        "jennifer.browne36a@example.com",
+        "alex.millere36a@example.com",
+        "samantha.greene36a@example.com",
+        "michael.jackson37a@example.com",
+        "emily.jones37a@example.com",
+        "david.wilson37a@example.com",
+        "lisa.anderson37a@example.com",
+        "kevin.white37a@example.com",
+        "jennifer.brown37a@example.com",
+        "alex.miller37a@example.com",
+        "samantha.green37a@example.com",
+        "michael.jacksone37a@example.com",
+        "emily.jonese37a@example.com",
+        "david.wilsone37a@example.com",
+        "lisa.andersone37a@example.com",
+        "kevin.whitee37a@example.com",
+        "jennifer.browne37a@example.com",
+        "alex.millere37a@example.com",
+        "samantha.greene37a@example.com",
+        "michael.jackson38a@example.com",
+        "emily.jones38a@example.com",
+        "david.wilson38a@example.com",
+        "lisa.anderson38a@example.com",
+        "kevin.white38a@example.com",
+        "jennifer.brown38a@example.com",
+        "alex.miller38a@example.com",
+        "samantha.green38a@example.com",
+        "michael.jacksone38a@example.com",
+        "emily.jonese38a@example.com",
+        "david.wilsone38a@example.com",
+        "lisa.andersone38a@example.com",
+        "kevin.whitee38a@example.com",
+        "jennifer.browne38a@example.com",
+        "alex.millere38a@example.com",
+        "samantha.greene38a@example.com",
+        "michael.jackson39a@example.com",
+        "emily.jones39a@example.com",
+        "david.wilson39a@example.com",
+        "lisa.anderson39a@example.com",
+        "kevin.white39a@example.com",
+        "jennifer.brown39a@example.com",
+        "alex.miller39a@example.com",
+        "samantha.green39a@example.com",
+        "michael.jacksone39a@example.com",
+        "emily.jonese39a@example.com",
+        "david.wilsone39a@example.com",
+        "lisa.andersone39a@example.com",
+        "kevin.whitee39a@example.com",
+        "jennifer.browne39a@example.com",
+        "alex.millere39a@example.com",
+        "samantha.greene39a@example.com",
+        "michael.jackson30a@example.com",
+        "emily.jones30a@example.com",
+        "david.wilson30a@example.com",
+        "lisa.anderson30a@example.com",
+        "kevin.white30a@example.com",
+        "jennifer.brown30a@example.com",
+        "alex.miller30a@example.com",
+        "samantha.green30a@example.com",
+        "michael.jacksone30a@example.com",
+        "emily.jonese30a@example.com",
+        "david.wilsone30a@example.com",
+        "lisa.andersone30a@example.com",
+        "kevin.whitee30a@example.com",
+        "jennifer.browne30a@example.com",
+        "alex.millere30a@example.com",
+        "samantha.greene30a@example.com",
+
+
+    )
+    Button(onClick = {sendPreRegisteredEmails(emailList)}) {
+        Text(text = "Save email")
+    }
+}
+fun sendPreRegisteredEmails(emails: List<String>) {
+    // Create a DatabaseReference
+    val database = Firebase.database
+    val reference = database.getReference("preRegisteredEmails")
+
+    // Create a list of PreRegisteredEmail objects
+    val preRegisteredEmails = emails.map { PreRegisteredEmail(it) }
+
+    // Push each pre-registered email to the Firebase Realtime Database
+    preRegisteredEmails.forEach { email ->
+        val emailKey = reference.push().key // Generate a unique key for each email
+        emailKey?.let {
+            reference.child(it).setValue(email)
+        }
+    }
+}
+
+fun main() {
+    // Sample list of 50 email addresses
+    val emailList = listOf(
+        "john.doe@example.com",
+        "jane.smith@example.com",
+        // Add the rest of your email addresses here...
+    )
+
+    // Call the function to send pre-registered emails to Firebase
+    sendPreRegisteredEmails(emailList)
+}
