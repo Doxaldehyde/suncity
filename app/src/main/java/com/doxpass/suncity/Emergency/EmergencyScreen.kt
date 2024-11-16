@@ -38,12 +38,27 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.size
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
 import com.doxpass.suncity.R
+import com.doxpass.suncity.ui.theme.Notification.ChatViewModel1
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.dox.suncity.Login.User
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
+
 
 @Composable
 fun EmergencyScreen(navController: NavController, modifier: Modifier = Modifier){
@@ -67,18 +82,6 @@ fun EmergencyScreen(navController: NavController, modifier: Modifier = Modifier)
         Text(text = "Privacy Policy", modifier = Modifier,
             color = MaterialTheme.colorScheme.primary)
     }
-   /* fun initiatePhoneCall(context: Context, phoneNumber: String) {
-        val permissionCheck = ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE)
-        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-            val phoneUri = Uri.parse("tel:$phoneNumber")
-            val callIntent = Intent(Intent.ACTION_CALL, phoneUri)
-            context.startActivity(callIntent)
-        } else {
-            Log.e("PhoneCall", "CALL_PHONE permission not granted")
-        }
-    }
-
-    */
 }
 @Composable
 fun EmergencyText(){
@@ -99,9 +102,37 @@ fun EmergencyText(){
 }
 
 @Composable
-fun Fire(phoneNumber: String = "+2347031522199", imageId: Int) {
+fun Fire(
+    phoneNumber: String = "+2347031522199",
+    imageId: Int,
+    viewModel: ChatViewModel1 = viewModel()
+) {
+    var userAddress by remember { mutableStateOf("") }
+    val auth = Firebase.auth
+    val userUID = auth.currentUser?.uid
+
+    // Fetch user address
+    LaunchedEffect(userUID) {
+        if (userUID != null) {
+            val userRef = FirebaseDatabase.getInstance().getReference("users").child(userUID)
+            userRef.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val user = dataSnapshot.getValue(User::class.java)
+                    user?.let {
+                        userAddress = it.homeAddress
+                    }
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    Log.e("Firebase", "Failed to read address", databaseError.toException())
+                }
+            })
+        }
+    }
+
     val context = LocalContext.current
 
+    // Permission launcher
     val requestPermissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
@@ -116,6 +147,7 @@ fun Fire(phoneNumber: String = "+2347031522199", imageId: Int) {
         modifier = Modifier
             .size(130.dp)
             .clickable {
+                viewModel.sendFireAlert("There is fire situation at $userAddress")
                 if (ContextCompat.checkSelfPermission(
                         context,
                         Manifest.permission.CALL_PHONE
@@ -137,7 +169,30 @@ fun initiatePhoneCall(context: Context, phoneNumber: String) {
     startActivity(context, callIntent, null)
 }
 @Composable
-fun Security(){
+fun Security(viewModel: ChatViewModel1 = viewModel()){
+    var userAddress by remember { mutableStateOf("") }
+    val auth = Firebase.auth
+    val userUID = auth.currentUser?.uid
+
+    // Fetch user address
+    LaunchedEffect(userUID) {
+        if (userUID != null) {
+            val userRef = FirebaseDatabase.getInstance().getReference("users").child(userUID)
+            userRef.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val user = dataSnapshot.getValue(User::class.java)
+                    user?.let {
+                        userAddress = it.homeAddress
+                    }
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    Log.e("Firebase", "Failed to read address", databaseError.toException())
+                }
+            })
+        }
+    }
+
     val context = LocalContext.current
 
     val phoneNumber = "+2347010192220"
@@ -156,6 +211,7 @@ fun Security(){
         modifier = Modifier
             .size(130.dp)
             .clickable {
+                viewModel.sendFireAlert("Potential security breach at $userAddress")
                 if (ContextCompat.checkSelfPermission(
                         context,
                         Manifest.permission.CALL_PHONE
@@ -172,7 +228,29 @@ fun Security(){
     }
 
 @Composable
-fun Medical() {
+fun Medical(viewModel: ChatViewModel1 = viewModel()) {
+    var userAddress by remember { mutableStateOf("") }
+    val auth = Firebase.auth
+    val userUID = auth.currentUser?.uid
+
+    // Fetch user address
+    LaunchedEffect(userUID) {
+        if (userUID != null) {
+            val userRef = FirebaseDatabase.getInstance().getReference("users").child(userUID)
+            userRef.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val user = dataSnapshot.getValue(User::class.java)
+                    user?.let {
+                        userAddress = it.homeAddress
+                    }
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    Log.e("Firebase", "Failed to read address", databaseError.toException())
+                }
+            })
+        }
+    }
     val context = LocalContext.current
 
     val phoneNumber = "+2348033124314"
@@ -191,6 +269,7 @@ fun Medical() {
         modifier = Modifier
             .size(130.dp)
             .clickable {
+                viewModel.sendFireAlert("Medical emergency require immediately at $userAddress")
                 if (ContextCompat.checkSelfPermission(
                         context,
                         Manifest.permission.CALL_PHONE
@@ -207,7 +286,29 @@ fun Medical() {
 }
 
 @Composable
-fun PBES(){
+fun PBES(viewModel: ChatViewModel1 = viewModel()){
+    var userAddress by remember { mutableStateOf("") }
+    val auth = Firebase.auth
+    val userUID = auth.currentUser?.uid
+
+    // Fetch user address
+    LaunchedEffect(userUID) {
+        if (userUID != null) {
+            val userRef = FirebaseDatabase.getInstance().getReference("users").child(userUID)
+            userRef.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val user = dataSnapshot.getValue(User::class.java)
+                    user?.let {
+                        userAddress = it.homeAddress
+                    }
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    Log.e("Firebase", "Failed to read address", databaseError.toException())
+                }
+            })
+        }
+    }
     val context = LocalContext.current
 
     val phoneNumber = "+2347046344217"
@@ -226,6 +327,7 @@ fun PBES(){
         modifier = Modifier
             .size(130.dp)
             .clickable {
+                viewModel.sendFireAlert("Additional back up required for security threat $userAddress")
                 if (ContextCompat.checkSelfPermission(
                         context,
                         Manifest.permission.CALL_PHONE
@@ -237,6 +339,6 @@ fun PBES(){
                 }
             },
         painter = painterResource(id = R.drawable.img_16),
-        contentDescription = "PBES"
+        contentDescription = "PEBS"
     )
     }

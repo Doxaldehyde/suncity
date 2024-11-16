@@ -77,7 +77,14 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
 
     //FCM Push notification
-  //  implementation("org.greenrobot:eventbus:3.3.1")
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.9.3")
+
+    dependencies {
+        implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    }
+
+
+    //  implementation("org.greenrobot:eventbus:3.3.1")
   //  implementation ("com.android.volley:volley:1.2.1")
    // implementation ("com.google.firebase:firebase-admin:9.0.0")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")

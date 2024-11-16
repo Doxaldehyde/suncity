@@ -10,67 +10,70 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dox.profile.GuestDetails.Guest
 import com.dox.suncity.ChatScreen.ChatViewModel
-import com.doxpass.suncity.ui.theme.Notification.ChatScreen
+import com.doxpass.suncity.ui.theme.Notification.ApiService
+
 import com.doxpass.suncity.ui.theme.Notification.ChatViewModel1
 import com.doxpass.suncity.ui.theme.Notification.EnterTokenDialog
+import com.doxpass.suncity.ui.theme.Notification.MyApp
+import com.doxpass.suncity.ui.theme.Notification.NotificationRequest
+import com.doxpass.suncity.ui.theme.Notification.NotificationViewModel
 
 
 import com.doxpass.suncity.ui.theme.SunCityTheme
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
-
-
-
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 
 class MainActivity : ComponentActivity() {
-    private val viewModel: ChatViewModel1 by viewModels()
+ //   private val viewModel: ChatViewModel1 by viewModels()
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(this)
         requestNotificationPermission()
-     //   FirebaseMessaging.getInstance().subscribeToTopic("Chat")
 
         installSplashScreen()
         val guestsList = mutableListOf<Guest>()
 
-        // Request POST_NOTIFICATIONS permission for Android 13 (API level 33) and above
-      //  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-      //      requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 100)
-    //    }
 
-/*
-        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Log.w("FCMToken", "Fetching FCM registration token failed", task.exception)
-                return@addOnCompleteListener
-            }
-
-            // Get the FCM registration token
-            val token = task.result
-            Log.d("FCMToken", "FCM Token: $token")
-        }
-        EventBus.getDefault().register(this);
-
- */
         setContent {
             SunCityTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
-                ) {
+                )
+                {
+                   MyApp()
+                 //   Navigation()
+                }
+
+                /*
+                {
                     val state = viewModel.state
-                    if(state.isEnteringToken) {
+                    if (state.isEnteringToken) {
                         EnterTokenDialog(
                             token = state.remoteToken,
                             onTokenChange = viewModel::onRemoteTokenChange,
@@ -88,21 +91,33 @@ class MainActivity : ComponentActivity() {
                             onMessageChange = viewModel::onMessageChange
                         )
                     }
-                  //  FCMMessage()
-                  //  Navigation()
+                    //  FCMMessage()
+                    //  Navigation()
                 }
+
+                 */
             }
 
         }
+        FirebaseMessaging.getInstance().subscribeToTopic("allDevices")
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d("FCM", "Subscribed to topic")
+                } else {
+                    Log.w("FCM", "Failed to subscribe to topic", task.exception)
+                }
+            }
+
     }
+
     private fun requestNotificationPermission() {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val hasPermission = ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.POST_NOTIFICATIONS
             ) == PackageManager.PERMISSION_GRANTED
 
-            if(!hasPermission) {
+            if (!hasPermission) {
                 ActivityCompat.requestPermissions(
                     this,
                     arrayOf(Manifest.permission.POST_NOTIFICATIONS),
@@ -111,6 +126,34 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+}
+
+/*
+@Composable
+fun MyApp(notificationViewModel: NotificationViewModel = viewModel()) {
+    val token = notificationViewModel.fcmToken
+    MaterialTheme {
+        Button(onClick = {
+            if (token != null) {
+                val message = "There is improvement, congratulations"
+                notificationViewModel.sendNotification(token, message)
+            } else{
+                println("Token not available yet")
+            }
+        })
+    {
+            Text(text = "Send Notification")
+        }
+    }
+}
+@Preview(showBackground = true)
+@Composable
+fun DefaultPreview() {
+    MyApp()
+}
+
+ */
 /*
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event: MyMessage?) {
@@ -124,7 +167,7 @@ class MainActivity : ComponentActivity() {
     }
 
  */
-}
+
 
 
 /*

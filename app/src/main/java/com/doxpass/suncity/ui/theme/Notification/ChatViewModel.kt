@@ -3,6 +3,7 @@ package com.doxpass.suncity.ui.theme.Notification
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.ktx.Firebase
@@ -17,6 +18,7 @@ import retrofit2.create
 import java.io.IOException
 
 class ChatViewModel1: ViewModel() {
+
 
     var state by mutableStateOf(ChatState())
         private set
@@ -45,6 +47,13 @@ class ChatViewModel1: ViewModel() {
         )
     }
 
+
+    fun sendFireAlert(fireMessage: String) {
+        // Broadcast the fire alert message
+        state = state.copy(messageText = fireMessage)
+        sendMessage(isBroadcast = true)
+    }
+
     fun onMessageChange(message: String) {
         state = state.copy(
             messageText = message
@@ -56,7 +65,7 @@ class ChatViewModel1: ViewModel() {
             val messageDto = SendMessageDto(
                 to = if(isBroadcast) null else state.remoteToken,
                 notification = NotificationBody(
-                    title = "New message!",
+                    title = "Emergency alert!",
                     body = state.messageText
                 )
             )

@@ -84,6 +84,7 @@ import com.dox.suncity.Login.OnboardingScreen3
 import com.dox.suncity.Login.User
 import com.dox.suncity.Profile.ProfileScreen
 import com.doxpass.suncity.Emergency.EmergencyScreen
+import com.doxpass.suncity.ui.theme.Notification.ChatScreen4
 
 
 import com.google.firebase.auth.ktx.auth
@@ -200,12 +201,13 @@ fun Navigation() {
 
     NavHost(
         navController = navController,
-        startDestination = Screen.FCMMessage.route
+        startDestination = Screen.OnboardingScreen1.route
     )
     {
-        composable(route = Screen.FCMMessage.route){
-        //    FCMMessage()
-        }
+
+
+      //  composable(route = Screen.FCMMessage.route){
+        //    FCMMessage() }
 
         composable(route = Screen.OnboardingScreen1.route){
             OnboardingScreen1(navController = navController)
@@ -360,8 +362,8 @@ fun Navigation() {
                     }
 
                     composable(route = Screen.ProfileScreen.route){
-
-                        ProfileScreen(navController = navController, dependentViewModel = dependentViewModel, context = LocalContext.current )
+                        ChatScreen4()
+                      //  ProfileScreen(navController = navController, dependentViewModel = dependentViewModel, context = LocalContext.current )
                     }
                     composable(route = Screen.ChatScreen.route){
                         ChatScreen(viewModel,navController = navController,

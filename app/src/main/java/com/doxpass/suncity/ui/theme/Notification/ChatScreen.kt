@@ -25,7 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ChatScreen(
+fun ChatScreen1(
     messageText: String,
     onMessageChange: (String) -> Unit,
     onMessageSend: () -> Unit,
